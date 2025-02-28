@@ -1,0 +1,37 @@
+task_generate_business_question:
+  description: >
+    Create a succinct business question based on a human resources database that could be 
+    answered with a MySQL query from that database. 
+    The questions should be answered simply using the following tables and columns:
+    {ddl}
+  expected_output: >
+    A single, succinct business question that could be answered using MySQL queries against database.
+    This question should not require deeper analysis beyond the results of a SQL query.
+    Put your single business question in <question> tags.
+  agent: question_generator
+  output_file: logs/tasks/outputs/question_generation/task_generate_business_question/output.md
+  
+task_ground_business_question:
+  description: >
+    Take the previously generated business question and revise it so it can actually be answered given 
+    the tables and columns defined in this DDL:
+    {ddl}
+  expected_output: >
+    A revised question that can actually be answered by the database.
+    Put your question in <question> tags.
+  agent: question_generator
+  output_file: logs/tasks/outputs/question_generation/task_refine_business_question/output.md
+
+task_refine_business_question:
+  description: >
+    Take the previously generated business question and evaluate it for ambiguity and complexity.
+    If it is ambiguous, refine it to be as clear and concise as possible. Ensure the refined question has a
+    specific, measurable answer that can be derived from MySQL queries.
+    If it is overly nuanced or complex, refine it to be more reasonable and understandable.
+    If it is not ambiguous or complex, do nothing
+  expected_output: >
+    A refined, clear, and unambiguous revision of the business question that specifies exactly
+    what data is needed and how it should be analyzed.
+    Put your question in <question> tags.
+  agent: question_generator
+  output_file: logs/tasks/outputs/question_generation/task_refine_business_question/output.md

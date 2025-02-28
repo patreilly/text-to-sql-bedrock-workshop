@@ -40,15 +40,15 @@ Parameters:
     Type: String
     NoEcho: true
 
-  LayersBucket:
-    Description: The S3 bucket that contains the Lambda layers
-    Type: String
-    Default: workshopassets-fweredf2h2
+  # LayersBucket:
+  #   Description: The S3 bucket that contains the Lambda layers
+  #   Type: String
+  #   Default: workshopassets-fweredf2h2
 
-  Boto3LayerS3ObjKey:
-    Description: The S3 object key of the boto3 layer
-    Type: String
-    Default: boto3.zip
+  # Boto3LayerS3ObjKey:
+  #   Description: The S3 object key of the boto3 layer
+  #   Type: String
+  #   Default: boto3.zip
 
 Resources:
   WorkshopS3Bucket:
@@ -808,14 +808,14 @@ Resources:
   #             - !Ref AWS::Region
   #             - ImageArn
   
-  CreateSageMakerLayer:
-    Type: AWS::Lambda::LayerVersion
-    Properties:
-      Content: 
-        S3Bucket: !Ref LayersBucket
-        S3Key: !Ref Boto3LayerS3ObjKey
-      Description: Boto3 Latest Version Layer
-      LayerName: Boto3
+  # CreateSageMakerLayer:
+  #   Type: AWS::Lambda::LayerVersion
+  #   Properties:
+  #     Content: 
+  #       S3Bucket: !Ref LayersBucket
+  #       S3Key: !Ref Boto3LayerS3ObjKey
+  #     Description: Boto3 Latest Version Layer
+  #     LayerName: Boto3
 
   CreateSageMakerApp:
     Type: Custom::CreateSageMakerApp
@@ -848,8 +848,8 @@ Resources:
       Description: >
         Creates and deletes SageMaker JupyterLab App and space.
       Handler: index.handler
-      Layers:
-        - !GetAtt CreateSageMakerLayer.LayerVersionArn
+      # Layers:
+      #   - !GetAtt CreateSageMakerLayer.LayerVersionArn
       Environment:
         Variables:
           SM_IMG_ARN: !FindInMap 
@@ -1095,8 +1095,8 @@ Resources:
       Description: >
         Creates a SageMaker Studio Lifecycle Config and adds it to the specified domain
       Handler: index.handler
-      Layers:
-        - !GetAtt CreateSageMakerLayer.LayerVersionArn
+      # Layers:
+      #   - !GetAtt CreateSageMakerLayer.LayerVersionArn
       Environment:
         Variables:
           GIT_REPO: !Ref GitRepositoryUrl

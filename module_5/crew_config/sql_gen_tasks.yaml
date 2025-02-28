@@ -1,0 +1,66 @@
+task_identify_relevant_tables_and_columns:
+  description: >
+    Based on the business question, find which specific tables and columns
+    will be needed to answer the business question. Explain why each table is relevant.
+  expected_output: >
+    A list of tables and columns that are directly relevant to answering the business question, with 
+    explanations of how each table and column contributes to the answer.
+  agent: sql_writer
+  output_file: logs/tasks/outputs/sql_generation/task_identify_relevant_tables/output.md
+  
+task_draft_sql_query:
+  description: >
+    Based on the business question and database schema analysis, write a first draft of an
+    MySQL query that would answer the business question. Include comments explaining your approach
+    and any assumptions made.
+    Here's the DDL for the database:
+    {ddl}
+  expected_output: >
+    A draft MySQL query with explanatory comments that attempts to answer the business question
+    based on the available database schema.
+    Put your query in ```sql tags.
+  agent: sql_writer
+  output_file: logs/tasks/outputs/sql_generation/task_draft_sql_query/output.md
+
+task_execute_sql_query:
+  description: >
+    Execute the final MySQL query against the HR database and capture the results. Handle any
+    runtime errors that may occur during execution.
+  expected_output: >
+    The results of executing the MySQL query or detailed error information if the execution failed.
+  agent: sql_writer
+  output_file: logs/tasks/outputs/sql_generation/task_execute_sql_query/output.md
+
+task_handle_sql_errors:
+  description: >
+    If MySQL execution produces errors, diagnose the specific issues and provide debugging steps.
+    Revise the query to address any errors and re-execute until successful.
+  expected_output: >
+    Diagnosis of MySQL errors, steps taken to resolve them, and the corrected MySQL query
+    that runs successfully.
+    Put your revised query in ```sql tags.
+  agent: sql_writer
+  output_file: logs/tasks/outputs/sql_generation/task_handle_sql_errors/output.md
+
+task_analyze_query_performance:
+  description: >
+    Use EXPLAIN (and EXPLAIN ANALYZE where available) to evaluate the performance characteristics
+    of the MySQL query. Examine the query execution plan to identify potential performance bottlenecks
+    such as table scans, inefficient joins, or missing indexes. Consider query cost estimates, 
+    actual execution times, and resource consumption patterns.
+    Optimizations should be focused only on the query, not the database itself.
+    If the existing query is already reasonably optimal, just say so.
+  expected_output: >
+    A detailed performance analysis of the MySQL query based on the execution plan, including:
+    1. Index Utilization: Does the query leverage available indexes efficiently? If not, suggest improvements.
+    2. Join Strategy: If joins are used, are they optimized to avoid unnecessary full-table scans?
+    3. Aggregation & Filtering: Are GROUP BY, ORDER BY, and WHERE conditions optimized to minimize computation?
+    4. Query Execution Plan: If an EXPLAIN plan is available, analyze potential bottlenecks (e.g., sequential scans, nested loops).
+    5. Performance Bottlenecks: Identify inefficient patterns like SELECT *, Cartesian joins, and subqueries that can be optimized.
+    6. Scalability: How does this query perform on large datasets? Suggest optimizations for handling millions of rows.
+    7. Optimization Suggestions: Provide a revised version of the MySQL query that improves efficiency.
+    Put your revised query in ```sql tags.
+  agent: query_performance_analyst
+  output_file: logs/tasks/outputs/query_optimization/task_analyze_query_performance/output.md
+
+
