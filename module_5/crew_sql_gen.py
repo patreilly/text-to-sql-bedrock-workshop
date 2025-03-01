@@ -2,7 +2,7 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.memory import LongTermMemory, ShortTermMemory
 from crewai.memory.entity.entity_memory import EntityMemory
-from crew_config.proj_tools import ProjectTools
+from crew_config.SqlTools import SQLExecutionTool
 from crew_config.llm_config import MEMORY_EMBEDDER, LLMModels
 import crew_config.crew_helpers as crew_helpers
 from crew_config.logger import CustomLogger 
@@ -27,11 +27,16 @@ class SQLGenerationCrew():
     def __init__(self, host=None, user=None, password=None):
         logger.info(f"Initializing {self.crew_name}")
         logger.info(f"Tasks config file: {self.tasks_config}")
-        self.TOOLS = ProjectTools(
+        # self.TOOLS = ProjectTools(
+        #     host=host,
+        #     user=user,
+        #     password=password
+        #     )
+        self.sql_execution_tool = SQLExecutionTool(
             host=host,
             user=user,
             password=password
-            )
+        )
     
     @agent
     def sql_writer(self) -> Agent:
@@ -42,7 +47,8 @@ class SQLGenerationCrew():
             step_callback=crew_helpers._step_callback,
             llm=LLMModels.get_claude_sonnet_3_5_v2(),
             function_calling_llm=LLMModels.get_claude_sonnet_3_7(),
-            tools=[self.TOOLS.sql_execution],
+            # tools=[self.TOOLS.sql_execution],
+            tools=[self.sql_execution_tool]
         )
     
     @agent
@@ -54,7 +60,8 @@ class SQLGenerationCrew():
             step_callback=crew_helpers._step_callback,
             llm=LLMModels.get_claude_sonnet_3_5_v2(),
             function_calling_llm=LLMModels.get_claude_sonnet_3_7(),
-            tools=[self.TOOLS.sql_execution],
+            # tools=[self.TOOLS.sql_execution],
+            tools=[self.sql_execution_tool]
         )
     
     @agent
@@ -136,8 +143,8 @@ class SQLGenerationCrew():
             step_callback=crew_helpers._step_callback,
             max_rpm=crew_helpers.AGENT_RPM,
             max_iter=3,
-            cache=True,
-            # verbose=True,
+            cache=False,
+            verbose=True,
             # memory=True,
             full_output=True,
             # long_term_memory=LongTermMemory(path=crew_helpers.ensure_dir_path(f"{self.data_dir}/long_term_memory_storage/") + "lts.db"),

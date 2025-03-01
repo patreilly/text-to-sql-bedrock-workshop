@@ -33,7 +33,7 @@ results_evaluator:
     Known for thoroughness in examining both what the data shows and what might be missing from the results.
   verbose: True
   respect_context_window: True
-  allow_delegation: True
+  allow_delegation: False
 
 
 query_performance_analyst:

@@ -1,8 +1,7 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai.memory import LongTermMemory, ShortTermMemory
-from crewai.memory.entity.entity_memory import EntityMemory
-from crew_config.proj_tools import ProjectTools
+# from crewai.memory import LongTermMemory, ShortTermMemory
+# from crewai.memory.entity.entity_memory import EntityMemory
 from crew_config.llm_config import MEMORY_EMBEDDER, LLMModels
 import crew_config.crew_helpers as crew_helpers
 from crew_config.logger import CustomLogger 
@@ -25,14 +24,10 @@ class QuestionGenerationCrew():
     agents_config = AGENTS_CONFIG_FILE
     tasks_config = TASKS_CONFIG_FILE
 
-    def __init__(self, host=None, user=None, password=None):
+    def __init__(self):
         logger.info(f"Initializing {self.crew_name}")
         logger.info(f"Tasks config file: {self.tasks_config}")
-        self.TOOLS = ProjectTools(
-            host=host,
-            user=user,
-            password=password
-            )
+
     
     @agent
     def question_generator(self) -> Agent:
@@ -86,8 +81,8 @@ class QuestionGenerationCrew():
             # step_callback=crew_helpers._step_callback,
             max_rpm=crew_helpers.AGENT_RPM,
             max_iter=2,
-            cache=True,
-            # verbose=True,
+            cache=False,
+            verbose=True,
             # memory=True,
             full_output=True,
             # long_term_memory=LongTermMemory(path=crew_helpers.ensure_dir_path(f"{self.data_dir}/long_term_memory_storage/") + "lts.db"),

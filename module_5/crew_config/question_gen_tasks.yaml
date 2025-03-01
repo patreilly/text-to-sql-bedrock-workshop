@@ -2,6 +2,7 @@ task_generate_business_question:
   description: >
     Create a succinct business question based on a human resources database that could be 
     answered with a MySQL query from that database. 
+    The question should have a complexity a young HR analyst with zero industry experience would understand.
     The questions should be answered simply using the following tables and columns:
     {ddl}
   expected_output: >
