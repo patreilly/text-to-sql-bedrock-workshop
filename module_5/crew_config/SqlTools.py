@@ -60,7 +60,7 @@ class SQLExecutionTool(BaseTool):
             print(f"Error connecting to database: {e}")
             self._engine = None
 
-    def _format_results(self, rows: List[Dict]) -> str:
+    def _format_results(self, rows: List[Dict], max_rows: int = 20) -> str:
         """
         Format query results in a way that's easy for AI agents to understand.
         
@@ -89,18 +89,18 @@ class SQLExecutionTool(BaseTool):
         # Add data preview with clean tabular format
         if num_rows > 0:
             # Convert DataFrame to formatted table string
-            if num_rows <= 20:  # Show all rows if less than 20
+            if num_rows <= max_rows:  # Show all rows if less than max_rows
                 table_str = df.to_string(index=False)
                 result_parts.append("Full result set:")
-            else:  # Show preview of first 10 rows if more than 20
-                table_str = df.head(10).to_string(index=False)
+            else:  # Show preview of first 10 rows if more than max_rows
+                table_str = df.head(max_rows).to_string(index=False)
                 result_parts.append(f"Preview of first 10 rows (out of {num_rows} total rows):")
             
             result_parts.append(table_str)
             
             # Add JSON representation for structured data access
             result_parts.append("\nStructured data (JSON format):")
-            json_str = json.dumps(rows[:20] if num_rows > 20 else rows, indent=2, default=str)
+            json_str = json.dumps(rows[:max_rows] if num_rows > max_rows else rows, indent=2, default=str)
             result_parts.append(json_str)
         
         # Statistical summary for numeric columns
