@@ -69,6 +69,22 @@ class LLMModels:
             max_tokens=5119,
             temperature=0.1,
         )
+    
+    @staticmethod
+    def get_nova_micro():
+        return LLM(
+            model="bedrock/us.amazon.nova-micro-v1:0",
+            max_tokens=5119,
+            temperature=0.1,
+        )
+    
+    @staticmethod
+    def get_nova_lite():
+        return LLM(
+            model="bedrock/us.amazon.nova-lite-v1:0",
+            max_tokens=5119,
+            temperature=0.1,
+        )
 
 # Default LLM
 default_llm = LLMModels.get_nova_pro()

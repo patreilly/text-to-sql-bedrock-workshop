@@ -15,3 +15,12 @@ question_generator:
   verbose: True
   respect_context_window: True
 
+question_refiner:
+  role: >
+    Business Question Refiner
+  goal: >
+    Refine an AI generated business question to be more reasonable, measurable, and answerabe through use of a SQL query with reasonable complexity.
+  backstory: >
+    You are a business data analyst adept at refining business questions to be most measurable, and sufficiently answerable via SQL queries.
+  verbose: True
+  respect_context_window: True

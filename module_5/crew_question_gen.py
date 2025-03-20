@@ -30,16 +30,27 @@ class QuestionGenerationCrew():
 
     
     @agent
-    def question_generator(self) -> Agent:
-        config = self.agents_config['question_generator']
+    def question_refiner(self) -> Agent:
+        config = self.agents_config['question_refiner']
         return Agent(
             config=config,
             verbose=True,
             step_callback=crew_helpers._step_callback,
             llm=LLMModels.get_claude_sonnet_3_5_v2(),
             function_calling_llm=LLMModels.get_nova_pro(),
-
         )
+    
+    @agent
+    def question_generator(self) -> Agent:
+        config = self.agents_config['question_generator']
+        return Agent(
+            config=config,
+            verbose=True,
+            step_callback=crew_helpers._step_callback,
+            llm=LLMModels.get_nova_micro(),
+            function_calling_llm=LLMModels.get_nova_pro(),
+        )
+
     @task
     def task_generate_business_question(self) -> Task:
         task_name = 'task_generate_business_question'

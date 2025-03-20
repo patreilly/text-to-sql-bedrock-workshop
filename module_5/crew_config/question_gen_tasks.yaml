@@ -20,7 +20,7 @@ task_ground_business_question:
   expected_output: >
     A revised question that can actually be answered by the database.
     Put your question in <question> tags.
-  agent: question_generator
+  agent: question_refiner
   output_file: logs/tasks/outputs/question_generation/task_refine_business_question/output.md
 
 task_refine_business_question:
@@ -34,5 +34,5 @@ task_refine_business_question:
     A refined, clear, and unambiguous revision of the business question that specifies exactly
     what data is needed and how it should be analyzed.
     Put your question in <question> tags.
-  agent: question_generator
+  agent: question_refiner
   output_file: logs/tasks/outputs/question_generation/task_refine_business_question/output.md
