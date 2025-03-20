@@ -3,7 +3,7 @@ import boto3
 from crewai import LLM
 
 # AWS Session Configuration
-boto3_session = boto3.Session(region_name="us-west-2")
+boto3_session = boto3.Session(region_name="us-east-1")
 bedrock_runtime = boto3_session.client(service_name="bedrock-runtime")
 
 # Embedder Configuration
@@ -70,6 +70,15 @@ class LLMModels:
             temperature=0.1,
         )
     
+    @staticmethod
+    def get_nova_premier():
+        return LLM(
+            model="bedrock/converse/us.amazon.nova-premier-v1:0",
+            # max_tokens=5119,
+            temperature=0.1,
+        )
+    
+
     @staticmethod
     def get_nova_micro():
         return LLM(

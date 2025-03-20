@@ -36,7 +36,7 @@ class QuestionGenerationCrew():
             config=config,
             verbose=True,
             step_callback=crew_helpers._step_callback,
-            llm=LLMModels.get_claude_sonnet_3_5_v2(),
+            llm=LLMModels.get_nova_premier(),
             function_calling_llm=LLMModels.get_nova_pro(),
         )
     
@@ -47,7 +47,7 @@ class QuestionGenerationCrew():
             config=config,
             verbose=True,
             step_callback=crew_helpers._step_callback,
-            llm=LLMModels.get_nova_micro(),
+            llm=LLMModels.get_nova_premier(),
             function_calling_llm=LLMModels.get_nova_pro(),
         )
 
